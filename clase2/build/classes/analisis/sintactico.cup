@@ -1,0 +1,64 @@
+package analisis;
+
+import java_cup.runtime.Symbol;
+
+// codigo java dentro del parser para manejar errores semanticos
+parser code 
+{:
+    scanner s;
+    parser(scanner s) { this.s = s; }
+    
+    public void syntax_error(Symbol s){
+        System.out.println("Error sintactico en la linea " + (s.left) + "y columna " + (s.right) + ". No se esperaba el siguiente componente: " + (s.value));
+    }
+    public void unrecovered_syntax_error(Symbol s){
+        System.out.println("Error sintactico no recuperable en la linea " + (s.left) + "y columna " + (s.right) + ". No se esperaba el siguiente componente: " + (s.value));
+    }
+:}
+//  Acumula el resultado de las instrucciones ejecutadas
+action code
+{: 
+    String codigoUsr = "";
+:}
+
+
+// declaracion de terminales (tokens enviados por el scanner)
+terminal String CADENA, ENTERO, DECIMAL;
+terminal FINCADENA, PRINT;
+terminal MAS, MENOS, MULT, DIV;
+terminal PAR1, PAR2;
+// Declaración de no terminales 
+nonterminal String INICIO;
+nonterminal INSTRUCCIONES, INSTRUCCION;
+nonterminal Double EXPRESION;
+// precedencia de operaciones, es decir, importancia
+precedence left MAS, MENOS;
+precedence left MULT, DIV;
+
+// gramatica
+
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES {:  RESULT = codigoUsr;  :}
+;
+
+INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION 
+                | INSTRUCCION
+;
+
+INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: codigoUsr+=a+"\n"; :}
+                | PRINT PAR1 CADENA:b PAR2 FINCADENA {: codigoUsr+=b+"\n"; :}
+;
+   
+EXPRESION ::= EXPRESION:a MAS EXPRESION:b {: RESULT = a+b; :}
+           |   EXPRESION:a MENOS EXPRESION:b {: RESULT = a-b; :}
+           |   EXPRESION:a MULT EXPRESION:b {: RESULT = a*b; :}
+           |   EXPRESION:a DIV EXPRESION:b {: RESULT = a/b; :}
+           | ENTERO:a                      {: RESULT = new Double(a); :}
+           | DECIMAL:a                      {: RESULT = new Double(a); :}
+           | PAR1 EXPRESION:a PAR2          {: RESULT = a; :}
+;
+
+
+
+
