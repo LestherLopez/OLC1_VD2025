@@ -1,0 +1,51 @@
+package analisis;
+// importaciones
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import abstracto.Instruccion;
+import Simbolo.Tipo;
+import Simbolo.tipoDato;
+import instrucciones.Print;
+import expresiones.Nativo;
+
+parser code
+{:
+        scanner s;
+        parser(scanner s){this.s = s;};
+        public void syntax_error(Symbol s){
+        System.out.println("Error sintactico en la linea " + (s.left) + "y columna " + (s.right) + ". No se esperaba el siguiente componente: " + (s.value));
+        }
+        public void unrecovered_syntax_error(Symbol s){
+            System.out.println("Error sintactico no recuperable en la linea " + (s.left) + "y columna " + (s.right) + ". No se esperaba el siguiente componente: " + (s.value));
+        }
+        
+
+:}
+
+action code
+{:
+:}
+
+//terminales
+terminal String CADENA, ENTERO, DECIMAL;
+terminal FINCADENA, PRINT, PAR1, PAR2;
+
+// no terminales
+nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
+nonterminal Instruccion INSTRUCCION;
+nonterminal Instruccion EXPRESION;
+
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES:a   {: RESULT = a; :}
+;
+
+INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
+                | INSTRUCCION:a                {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+;
+INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, aleft, aright);:}
+;
+EXPRESION ::= ENTERO:a       {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright);:}   
+              | DECIMAL:a   {: RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright);:}
+              | CADENA:a    {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright);:}
+;
