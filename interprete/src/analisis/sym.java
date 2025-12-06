@@ -10,23 +10,39 @@ public class sym {
   /* terminals */
   public static final int CADENA = 2;
   public static final int DECIMAL = 4;
+  public static final int MENOS = 11;
+  public static final int UMENOS = 12;
+  public static final int TRUE = 15;
   public static final int ENTERO = 3;
   public static final int EOF = 0;
-  public static final int PAR2 = 8;
-  public static final int PAR1 = 7;
-  public static final int FINCADENA = 5;
+  public static final int MAS = 10;
+  public static final int PAR2 = 9;
+  public static final int FALSE = 16;
+  public static final int PAR1 = 8;
+  public static final int FINCADENA = 6;
+  public static final int IGUAL = 13;
   public static final int error = 1;
-  public static final int PRINT = 6;
+  public static final int PRINT = 7;
+  public static final int EQUALS = 14;
+  public static final int CHAR = 5;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "CADENA",
   "ENTERO",
   "DECIMAL",
+  "CHAR",
   "FINCADENA",
   "PRINT",
   "PAR1",
-  "PAR2"
+  "PAR2",
+  "MAS",
+  "MENOS",
+  "UMENOS",
+  "IGUAL",
+  "EQUALS",
+  "TRUE",
+  "FALSE"
   };
 }
 

@@ -5,9 +5,14 @@ import java.util.LinkedList;
 import abstracto.Instruccion;
 import Simbolo.Tipo;
 import Simbolo.tipoDato;
+//instrucciones
 import instrucciones.Print;
+//expresiones
 import expresiones.Nativo;
-
+import expresiones.OperadoresAritmeticos;
+import expresiones.Aritmeticas;
+import expresiones.OperadoresRelacionales;
+import expresiones.Relacionales;
 parser code
 {:
         scanner s;
@@ -28,12 +33,30 @@ action code
 
 //terminales
 terminal String CADENA, ENTERO, DECIMAL;
-terminal FINCADENA, PRINT, PAR1, PAR2;
-
+terminal Character CHAR;
+terminal FINCADENA, PRINT, PAR1, PAR2, MAS, MENOS, UMENOS;
+terminal IGUAL, EQUALS;
+terminal TRUE, FALSE;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION;
+
+//orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
+//precedence left OR;
+//precedence left AND;
+//precedence left XOR;
+//precedence right NOT;
+//precedence left IGUALACION, DIFERENTE, MENORQ, MAYORQ, MENORIGUAL, MAYORIGUAL;
+//precedence left SUMA, MENOS;
+//precedence left MULTIPLICACION, DIVISION, MODULO;
+//precedence nonassoc POTENCIA;
+//precedence right UMENOS;
+
+precedence left EQUALS;
+precedence left MAS;
+precedence left MENOS;
+precedence right UMENOS;
 
 start with INICIO;
 
@@ -45,7 +68,15 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
 ;
 INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, aleft, aright);:}
 ;
-EXPRESION ::= ENTERO:a       {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright);:}   
+EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(OperadoresAritmeticos.NEGACION, a, aleft, aright); :} %prec UMENOS
+              | EXPRESION:a MAS EXPRESION:b  {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
+              | EXPRESION:a IGUAL IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.EQUALS, aleft, aright);    :}%prec EQUALS
+              | PAR1 EXPRESION:a PAR2  {: RESULT = a; :}
+              | ENTERO:a       {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright);:}   
               | DECIMAL:a   {: RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright);:}
+              | CHAR:a {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER), aleft, aright); :}
               | CADENA:a    {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright);:}
+              | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
+              | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
+             
 ;
