@@ -8,29 +8,40 @@ package analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int MENOS = 16;
+  public static final int DOSPUNTOS = 18;
   public static final int CADENA = 2;
+  public static final int IGUAL = 19;
+  public static final int INT = 6;
+  public static final int CHAR = 10;
+  public static final int FINCADENA = 11;
   public static final int DECIMAL = 4;
-  public static final int MENOS = 11;
-  public static final int UMENOS = 12;
-  public static final int TRUE = 15;
-  public static final int ENTERO = 3;
+  public static final int TRUE = 21;
+  public static final int UMENOS = 17;
+  public static final int ID = 5;
+  public static final int EQUALS = 20;
+  public static final int STRING = 8;
   public static final int EOF = 0;
-  public static final int MAS = 10;
-  public static final int PAR2 = 9;
-  public static final int FALSE = 16;
-  public static final int PAR1 = 8;
-  public static final int FINCADENA = 6;
-  public static final int IGUAL = 13;
+  public static final int FALSE = 22;
+  public static final int PRINT = 12;
   public static final int error = 1;
-  public static final int PRINT = 7;
-  public static final int EQUALS = 14;
-  public static final int CHAR = 5;
+  public static final int PAR2 = 14;
+  public static final int PAR1 = 13;
+  public static final int ENTERO = 3;
+  public static final int VAR = 9;
+  public static final int MAS = 15;
+  public static final int DOUBLE = 7;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "CADENA",
   "ENTERO",
   "DECIMAL",
+  "ID",
+  "INT",
+  "DOUBLE",
+  "STRING",
+  "VAR",
   "CHAR",
   "FINCADENA",
   "PRINT",
@@ -39,6 +50,7 @@ public class sym {
   "MAS",
   "MENOS",
   "UMENOS",
+  "DOSPUNTOS",
   "IGUAL",
   "EQUALS",
   "TRUE",

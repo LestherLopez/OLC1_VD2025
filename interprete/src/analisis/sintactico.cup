@@ -7,12 +7,15 @@ import Simbolo.Tipo;
 import Simbolo.tipoDato;
 //instrucciones
 import instrucciones.Print;
+import instrucciones.Declaracion;
+import instrucciones.AsignacionVar;
 //expresiones
 import expresiones.Nativo;
 import expresiones.OperadoresAritmeticos;
 import expresiones.Aritmeticas;
 import expresiones.OperadoresRelacionales;
 import expresiones.Relacionales;
+import expresiones.AccesoVar;
 parser code
 {:
         scanner s;
@@ -32,16 +35,17 @@ action code
 :}
 
 //terminales
-terminal String CADENA, ENTERO, DECIMAL;
+terminal String CADENA, ENTERO, DECIMAL, ID, INT, DOUBLE, STRING, VAR;
 terminal Character CHAR;
-terminal FINCADENA, PRINT, PAR1, PAR2, MAS, MENOS, UMENOS;
+terminal FINCADENA, PRINT, PAR1, PAR2, MAS, MENOS, UMENOS, DOSPUNTOS;
 terminal IGUAL, EQUALS;
 terminal TRUE, FALSE;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION;
-
+nonterminal Instruccion DECLARACION, ASIGNACION;
+nonterminal Tipo TIPOS;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
 //precedence left AND;
@@ -67,7 +71,23 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
                 | INSTRUCCION:a                {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, aleft, aright);:}
+                | DECLARACION:a   {: RESULT = a;  :}
+                | ASIGNACION:a    {: RESULT = a; :}
 ;
+
+DECLARACION ::= VAR  ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESULT = new Declaracion(b, c, a, aleft, aright); :}
+                 | VAR ID:b DOSPUNTOS TIPOS:a FINCADENA
+                {: RESULT = new Declaracion(b, null, a, bleft, bright); :}
+;   
+
+ASIGNACION ::= ID:a IGUAL EXPRESION: b FINCADENA {: RESULT = new AsignacionVar(a, b, aleft, aright); :}
+;
+
+TIPOS ::=   INT         {: RESULT = new Tipo(tipoDato.ENTERO);  :}
+          | DOUBLE      {: RESULT = new Tipo(tipoDato.DECIMAL);  :}
+          | STRING      {: RESULT = new Tipo(tipoDato.CADENA);  :}
+;
+
 EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(OperadoresAritmeticos.NEGACION, a, aleft, aright); :} %prec UMENOS
               | EXPRESION:a MAS EXPRESION:b  {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
               | EXPRESION:a IGUAL IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.EQUALS, aleft, aright);    :}%prec EQUALS
@@ -76,6 +96,7 @@ EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(Operadore
               | DECIMAL:a   {: RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright);:}
               | CHAR:a {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER), aleft, aright); :}
               | CADENA:a    {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright);:}
+              | ID:a            {: RESULT = new AccesoVar(a, aleft, aright);  :}
               | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
               | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
              
