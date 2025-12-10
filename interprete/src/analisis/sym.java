@@ -8,7 +8,10 @@ package analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int _llaveizq = 25;
   public static final int MENOS = 16;
+  public static final int _llaveder = 26;
+  public static final int _if = 23;
   public static final int DOSPUNTOS = 18;
   public static final int CADENA = 2;
   public static final int IGUAL = 19;
@@ -18,6 +21,7 @@ public class sym {
   public static final int DECIMAL = 4;
   public static final int TRUE = 21;
   public static final int UMENOS = 17;
+  public static final int _else = 24;
   public static final int ID = 5;
   public static final int EQUALS = 20;
   public static final int STRING = 8;
@@ -54,7 +58,11 @@ public class sym {
   "IGUAL",
   "EQUALS",
   "TRUE",
-  "FALSE"
+  "FALSE",
+  "_if",
+  "_else",
+  "_llaveizq",
+  "_llaveder"
   };
 }
 
