@@ -25,15 +25,16 @@ public class While extends Instruccion {
     @Override 
     public Object interpretar(Arbol arbol, tablaSimbolos tabla){
         // se crear una tabla para el while
-        tablaSimbolos tablaWhile = new tablaSimbolos(tabla);
-        // se ejecuta condicion inicial del while
-        Object condicion = this.expresion.interpretar(arbol, tablaWhile);
+               // se ejecuta condicion inicial del while
+        Object condicion = this.expresion.interpretar(arbol, tabla);
         // validamos que la condicion no tenga errores
         if (condicion instanceof Errores){
             return condicion;
         } 
         // se ejecutan instrucciones mientras condicion sea verdadero
         while ((boolean)condicion){
+            tablaSimbolos tablaWhile = new tablaSimbolos(tabla);
+
             for (var ins: instrucciones){
                 Object resultado = ins.interpretar(arbol, tablaWhile);
                 // validamos que la instruccion no traiga un errore
