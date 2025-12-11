@@ -33,6 +33,7 @@ IGUAL = "="
 EQUALS = "=="
 _llaveizq = "{"
 _llaveder = "}"
+_menorq = "<"
 DOSPUNTOS = ":"
 TRUE="true"
 FALSE="false"
@@ -45,6 +46,7 @@ CHAR = \'([^\'\\]|\\.)\'
 CADENA = [\"]([^\"])*[\"]
 ID=[a-zA-z][a-zA-Z0-9]* 
 // palabras reservadas
+_while = "while"
 _if = "if"
 _else = "else"
 PRINT = "print"
@@ -59,6 +61,7 @@ STRING = "string"
 <YYINITIAL> {FALSE} {return new Symbol(sym.FALSE, yyline, yycolumn,yytext());}
 <YYINITIAL> {_if} {return new Symbol(sym._if, yyline, yycolumn,yytext());}
 <YYINITIAL> {_else} {return new Symbol(sym._else, yyline, yycolumn,yytext());}
+<YYINITIAL> {_while} {return new Symbol(sym._while, yyline, yycolumn,yytext());}
 <YYINITIAL> {VAR} {return new Symbol(sym.VAR, yyline, yycolumn,yytext());}
 <YYINITIAL> {INT} {return new Symbol(sym.INT, yyline, yycolumn,yytext());}
 <YYINITIAL> {STRING} {return new Symbol(sym.STRING, yyline, yycolumn,yytext());}
@@ -83,6 +86,7 @@ STRING = "string"
 <YYINITIAL> {PAR2} {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}
 <YYINITIAL> {_llaveizq} {return new Symbol(sym._llaveizq, yyline, yycolumn, yytext());}
 <YYINITIAL> {_llaveder} {return new Symbol(sym._llaveder, yyline, yycolumn, yytext());}
+<YYINITIAL> {_menorq} {return new Symbol(sym._menorq, yyline, yycolumn, yytext());}
 <YYINITIAL> {MAS} {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}
 <YYINITIAL> {MENOS} {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}
 <YYINITIAL> {EQUALS} {return new Symbol(sym.EQUALS, yyline, yycolumn, yytext());}

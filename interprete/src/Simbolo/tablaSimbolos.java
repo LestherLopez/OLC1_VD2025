@@ -56,13 +56,26 @@ public class tablaSimbolos {
         }
         return false;
     }
+    /*
+        var a: int = 0;
+        while(a<5){
+            var b: int = 0;
+            if(){
+            }
+            print(a);
+            a = a+1;
+        }
     
-    public Simbolo getVariable(String id){
-        Simbolo busqueda = (Simbolo) this.tablaActual.get(id.toLowerCase());
-        if (busqueda != null){
-           
-            return busqueda;
+        */
+    public Simbolo getVariable(String id) {
+        for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {
+            Simbolo busqueda = (Simbolo) i.tablaActual.
+                    get(id.toLowerCase());
+            if (busqueda != null) {
+                return busqueda;
+            }
         }
         return null;
     }
+   
 }

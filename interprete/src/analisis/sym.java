@@ -16,9 +16,11 @@ public class sym {
   public static final int CADENA = 2;
   public static final int IGUAL = 19;
   public static final int INT = 6;
+  public static final int _while = 27;
   public static final int CHAR = 10;
   public static final int FINCADENA = 11;
   public static final int DECIMAL = 4;
+  public static final int _menorq = 28;
   public static final int TRUE = 21;
   public static final int UMENOS = 17;
   public static final int _else = 24;
@@ -62,7 +64,9 @@ public class sym {
   "_if",
   "_else",
   "_llaveizq",
-  "_llaveder"
+  "_llaveder",
+  "_while",
+  "_menorq"
   };
 }
 

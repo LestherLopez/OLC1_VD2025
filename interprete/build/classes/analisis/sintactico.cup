@@ -10,6 +10,7 @@ import instrucciones.Print;
 import instrucciones.Declaracion;
 import instrucciones.AsignacionVar;
 import instrucciones.If;
+import instrucciones.While;
 //expresiones
 import expresiones.Nativo;
 import expresiones.OperadoresAritmeticos;
@@ -42,6 +43,7 @@ terminal FINCADENA, PRINT, PAR1, PAR2, MAS, MENOS, UMENOS, DOSPUNTOS;
 terminal IGUAL, EQUALS;
 terminal TRUE, FALSE, _if, _else;
 terminal _llaveizq, _llaveder;
+terminal _while, _menorq;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
@@ -50,6 +52,7 @@ nonterminal Instruccion DECLARACION, ASIGNACION;
 nonterminal Tipo TIPOS;
 nonterminal Instruccion SIF;
 nonterminal LinkedList<Instruccion> ELSEIF;
+nonterminal Instruccion WHILE;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
 //precedence left AND;
@@ -61,7 +64,7 @@ nonterminal LinkedList<Instruccion> ELSEIF;
 //precedence nonassoc POTENCIA;
 //precedence right UMENOS;
 
-precedence left EQUALS;
+precedence left EQUALS, _menorq;
 precedence left MAS;
 precedence left MENOS;
 precedence right UMENOS;
@@ -78,9 +81,10 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | DECLARACION:a   {: RESULT = a;  :}
                 | ASIGNACION:a    {: RESULT = a; :}
                 | SIF:a            {:RESULT = a; :}
-               
+                | WHILE:a           {:RESULT = a; :}
 ;
-
+WHILE ::= _while PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder {: RESULT = new While(a, b, aleft, aright); :}
+; 
 SIF ::= _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder {: RESULT = new If(a, b, aleft, aright); :}
         | _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder _else _llaveizq INSTRUCCIONES:c _llaveder {: RESULT =  new If(a, b, c, aleft, aright); :}
         | _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder ELSEIF:c {: RESULT =  new If(a, b, c, null, aleft, aright); :}
@@ -106,6 +110,7 @@ TIPOS ::=   INT         {: RESULT = new Tipo(tipoDato.ENTERO);  :}
 EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(OperadoresAritmeticos.NEGACION, a, aleft, aright); :} %prec UMENOS
               | EXPRESION:a MAS EXPRESION:b  {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
               | EXPRESION:a EQUALS EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.EQUALS, aleft, aright);    :}
+              | EXPRESION:a _menorq EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MENOR, aleft, aright);    :}
               | PAR1 EXPRESION:a PAR2  {: RESULT = a; :}
               | ENTERO:a       {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright);:}   
               | DECIMAL:a   {: RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright);:}
