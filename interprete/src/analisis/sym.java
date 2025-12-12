@@ -28,6 +28,7 @@ public class sym {
   public static final int EQUALS = 20;
   public static final int STRING = 8;
   public static final int EOF = 0;
+  public static final int _break = 29;
   public static final int FALSE = 22;
   public static final int PRINT = 12;
   public static final int error = 1;
@@ -66,7 +67,8 @@ public class sym {
   "_llaveizq",
   "_llaveder",
   "_while",
-  "_menorq"
+  "_menorq",
+  "_break"
   };
 }
 

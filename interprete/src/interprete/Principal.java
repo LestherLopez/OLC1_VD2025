@@ -9,6 +9,7 @@ import Simbolo.tablaSimbolos;
 import abstracto.Instruccion;
 import analisis.parser;
 import analisis.scanner;
+import excepciones.Errores;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.HashSet;
@@ -99,6 +100,9 @@ public class Principal extends javax.swing.JFrame {
             var tabla = new tablaSimbolos();
             tabla.setNombre("GLOBAL");
             ast.setConsolas("");
+            LinkedList<Errores> lista =  new LinkedList<>();
+            lista.addAll(s.listaErrores);
+            
             for (var a: ast.getInstrucciones()){
                 a.interpretar(ast, tabla);
             }

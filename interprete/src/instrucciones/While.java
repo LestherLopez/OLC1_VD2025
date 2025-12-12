@@ -36,11 +36,15 @@ public class While extends Instruccion {
             tablaSimbolos tablaWhile = new tablaSimbolos(tabla);
 
             for (var ins: instrucciones){
+                if (ins instanceof Break){
+                   return ins; 
+                }
                 Object resultado = ins.interpretar(arbol, tablaWhile);
                 // validamos que la instruccion no traiga un errore
                 if (resultado instanceof Errores){
                     return resultado;
                 } 
+                
             }
             // se ejecuta condicion nuevamente despues del bloque de instrucciones
             condicion = this.expresion.interpretar(arbol, tablaWhile);

@@ -11,6 +11,7 @@ import instrucciones.Declaracion;
 import instrucciones.AsignacionVar;
 import instrucciones.If;
 import instrucciones.While;
+import instrucciones.Break;
 //expresiones
 import expresiones.Nativo;
 import expresiones.OperadoresAritmeticos;
@@ -44,6 +45,7 @@ terminal IGUAL, EQUALS;
 terminal TRUE, FALSE, _if, _else;
 terminal _llaveizq, _llaveder;
 terminal _while, _menorq;
+terminal String _break;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
@@ -53,6 +55,7 @@ nonterminal Tipo TIPOS;
 nonterminal Instruccion SIF;
 nonterminal LinkedList<Instruccion> ELSEIF;
 nonterminal Instruccion WHILE;
+nonterminal Instruccion BREAK;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
 //precedence left AND;
@@ -82,6 +85,7 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | ASIGNACION:a    {: RESULT = a; :}
                 | SIF:a            {:RESULT = a; :}
                 | WHILE:a           {:RESULT = a; :}
+                | BREAK:a          {:RESULT = a; :}
 ;
 WHILE ::= _while PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder {: RESULT = new While(a, b, aleft, aright); :}
 ; 
@@ -94,6 +98,8 @@ ELSEIF ::=  ELSEIF:m _else _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _
             | _else _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder {: RESULT =  new LinkedList<>(); RESULT.add(new If(a, b, aleft, aright));:}
 ;
 
+BREAK ::= _break:a FINCADENA {: RESULT =  new Break(aleft, aright); :}
+; 
 DECLARACION ::= VAR  ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESULT = new Declaracion(b, c, a, aleft, aright); :}
                  | VAR ID:b DOSPUNTOS TIPOS:a FINCADENA
                 {: RESULT = new Declaracion(b, null, a, bleft, bright); :}
