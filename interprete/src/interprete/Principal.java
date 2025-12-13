@@ -102,7 +102,7 @@ public class Principal extends javax.swing.JFrame {
             ast.setConsolas("");
             LinkedList<Errores> lista =  new LinkedList<>();
             lista.addAll(s.listaErrores);
-            
+            lista.addAll(p.listaErrores);
             for (var a: ast.getInstrucciones()){
                 a.interpretar(ast, tabla);
             }

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import abstracto.Instruccion;
 import Simbolo.Tipo;
 import Simbolo.tipoDato;
+import excepciones.Errores;
 //instrucciones
 import instrucciones.Print;
 import instrucciones.Declaracion;
@@ -21,12 +22,15 @@ import expresiones.Relacionales;
 import expresiones.AccesoVar;
 parser code
 {:
+        public LinkedList<Errores> listaErrores = new LinkedList<>();
         scanner s;
         parser(scanner s){this.s = s;};
         public void syntax_error(Symbol s){
+        listaErrores.add(new Errores("SINTACTICO", "No se el componente" + s.value, s.left, s.right));
         System.out.println("Error sintactico en la linea " + (s.left) + "y columna " + (s.right) + ". No se esperaba el siguiente componente: " + (s.value));
         }
         public void unrecovered_syntax_error(Symbol s){
+             listaErrores.add(new Errores("SINTACTICO", "No se el componente" + s.value, s.left, s.right));
             System.out.println("Error sintactico no recuperable en la linea " + (s.left) + "y columna " + (s.right) + ". No se esperaba el siguiente componente: " + (s.value));
         }
         
@@ -45,6 +49,7 @@ terminal IGUAL, EQUALS;
 terminal TRUE, FALSE, _if, _else;
 terminal _llaveizq, _llaveder;
 terminal _while, _menorq;
+terminal _for;
 terminal String _break;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -56,6 +61,7 @@ nonterminal Instruccion SIF;
 nonterminal LinkedList<Instruccion> ELSEIF;
 nonterminal Instruccion WHILE;
 nonterminal Instruccion BREAK;
+nonterminal Instruccion FOR, ACTUALIZAR_FOR;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
 //precedence left AND;
@@ -86,6 +92,9 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | SIF:a            {:RESULT = a; :}
                 | WHILE:a           {:RESULT = a; :}
                 | BREAK:a          {:RESULT = a; :}
+                | FOR:a             {: RESULT = a; :}
+                | error FINCADENA
+                | error 
 ;
 WHILE ::= _while PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder {: RESULT = new While(a, b, aleft, aright); :}
 ; 
@@ -98,8 +107,16 @@ ELSEIF ::=  ELSEIF:m _else _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _
             | _else _if PAR1 EXPRESION:a PAR2 _llaveizq INSTRUCCIONES:b _llaveder {: RESULT =  new LinkedList<>(); RESULT.add(new If(a, b, aleft, aright));:}
 ;
 
+FOR ::= _for PAR1 ASIGNACION:a EXPRESION:b FINCADENA ACTUALIZAR_FOR:c PAR2 _llaveizq INSTRUCCIONES:d _llaveder 
+;
+
+ACTUALIZAR_FOR ::= ID:a IGUAL EXPRESION:b {: RESULT = new AsignacionVar(a, b, aleft, aright); :}
+; 
+
 BREAK ::= _break:a FINCADENA {: RESULT =  new Break(aleft, aright); :}
 ; 
+
+
 DECLARACION ::= VAR  ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESULT = new Declaracion(b, c, a, aleft, aright); :}
                  | VAR ID:b DOSPUNTOS TIPOS:a FINCADENA
                 {: RESULT = new Declaracion(b, null, a, bleft, bright); :}

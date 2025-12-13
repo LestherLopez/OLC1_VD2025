@@ -54,6 +54,7 @@ public class While extends Instruccion {
             } 
             // verificar que condicion sea un booleano despues del bloque de instrucciones
             if(!(condicion instanceof Boolean)){
+                
                 return new Errores("Semantico", "La condicion del while tiene que devolver un valor booleano", this.linea, this.col);
             }
         }

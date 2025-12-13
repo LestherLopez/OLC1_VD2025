@@ -48,6 +48,7 @@ CHAR = \'([^\'\\]|\\.)\'
 CADENA = [\"]([^\"])*[\"]
 ID = [a-zA-Z_][a-zA-Z0-9_]*
 // palabras reservadas
+_for = "for"
 _break ="break"
 _while = "while"
 _if = "if"
@@ -65,6 +66,7 @@ STRING = "string"
 <YYINITIAL> {_if} {return new Symbol(sym._if, yyline, yycolumn,yytext());}
 <YYINITIAL> {_else} {return new Symbol(sym._else, yyline, yycolumn,yytext());}
 <YYINITIAL> {_while} {return new Symbol(sym._while, yyline, yycolumn,yytext());}
+<YYINITIAL> {_for} {return new Symbol(sym._for, yyline, yycolumn,yytext());}
 <YYINITIAL> {_break} {return new Symbol(sym._break, yyline, yycolumn,yytext());}
 <YYINITIAL> {VAR} {return new Symbol(sym.VAR, yyline, yycolumn,yytext());}
 <YYINITIAL> {INT} {return new Symbol(sym.INT, yyline, yycolumn,yytext());}

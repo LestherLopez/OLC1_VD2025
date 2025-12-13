@@ -28,13 +28,14 @@ public class sym {
   public static final int EQUALS = 20;
   public static final int STRING = 8;
   public static final int EOF = 0;
-  public static final int _break = 29;
+  public static final int _break = 30;
   public static final int FALSE = 22;
   public static final int PRINT = 12;
   public static final int error = 1;
   public static final int PAR2 = 14;
   public static final int PAR1 = 13;
   public static final int ENTERO = 3;
+  public static final int _for = 29;
   public static final int VAR = 9;
   public static final int MAS = 15;
   public static final int DOUBLE = 7;
@@ -68,6 +69,7 @@ public class sym {
   "_llaveder",
   "_while",
   "_menorq",
+  "_for",
   "_break"
   };
 }
