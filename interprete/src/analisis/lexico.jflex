@@ -40,6 +40,7 @@ DOSPUNTOS = ":"
 TRUE="true"
 FALSE="false"
 FINCADENA = ";"
+COMA = ","
 
 BLANCOS = [\ \r\t\f\n]+
 ENTERO = [0-9]+
@@ -50,6 +51,8 @@ ID = [a-zA-Z_][a-zA-Z0-9_]*
 // palabras reservadas
 _for = "for"
 _break ="break"
+VOID = "void"
+START = "start"
 _while = "while"
 _if = "if"
 _else = "else"
@@ -68,6 +71,8 @@ STRING = "string"
 <YYINITIAL> {_while} {return new Symbol(sym._while, yyline, yycolumn,yytext());}
 <YYINITIAL> {_for} {return new Symbol(sym._for, yyline, yycolumn,yytext());}
 <YYINITIAL> {_break} {return new Symbol(sym._break, yyline, yycolumn,yytext());}
+<YYINITIAL> {VOID} {return new Symbol(sym.VOID, yyline, yycolumn,yytext());}
+<YYINITIAL> {START} {return new Symbol(sym.START, yyline, yycolumn,yytext());}
 <YYINITIAL> {VAR} {return new Symbol(sym.VAR, yyline, yycolumn,yytext());}
 <YYINITIAL> {INT} {return new Symbol(sym.INT, yyline, yycolumn,yytext());}
 <YYINITIAL> {STRING} {return new Symbol(sym.STRING, yyline, yycolumn,yytext());}
@@ -95,6 +100,7 @@ STRING = "string"
 <YYINITIAL> {_menorq} {return new Symbol(sym._menorq, yyline, yycolumn, yytext());}
 <YYINITIAL> {MAS} {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}
 <YYINITIAL> {MENOS} {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}
+<YYINITIAL> {COMA} {return new Symbol(sym.COMA, yyline, yycolumn, yytext());}
 <YYINITIAL> {EQUALS} {return new Symbol(sym.EQUALS, yyline, yycolumn, yytext());}
 <YYINITIAL> {IGUAL} {return new Symbol(sym.IGUAL, yyline, yycolumn, yytext());}
 <YYINITIAL> . {

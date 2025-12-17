@@ -8,6 +8,7 @@ import Simbolo.Tipo;
 import abstracto.Instruccion;
 import Simbolo.Arbol;
 import Simbolo.tablaSimbolos;
+import Simbolo.tipoDato;
 /**
  *
  * @author Lesther
@@ -22,6 +23,16 @@ public class Nativo extends Instruccion {
     
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla){
+        if(this.tipo.getTipo() == tipoDato.CADENA){
+            String  texto =  valor.toString();
+            texto = texto.replace("\\n", "\n");
+            /*
+                        print("hola\nmundo");
+                        hola
+                        mundo
+                        */
+            return texto;
+        }
         return this.valor;
     }
     

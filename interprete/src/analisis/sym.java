@@ -25,6 +25,7 @@ public class sym {
   public static final int UMENOS = 17;
   public static final int _else = 24;
   public static final int ID = 5;
+  public static final int COMA = 32;
   public static final int EQUALS = 20;
   public static final int STRING = 8;
   public static final int EOF = 0;
@@ -34,7 +35,9 @@ public class sym {
   public static final int error = 1;
   public static final int PAR2 = 14;
   public static final int PAR1 = 13;
+  public static final int START = 33;
   public static final int ENTERO = 3;
+  public static final int VOID = 31;
   public static final int _for = 29;
   public static final int VAR = 9;
   public static final int MAS = 15;
@@ -70,7 +73,10 @@ public class sym {
   "_while",
   "_menorq",
   "_for",
-  "_break"
+  "_break",
+  "VOID",
+  "COMA",
+  "START"
   };
 }
 

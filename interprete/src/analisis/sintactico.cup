@@ -2,6 +2,7 @@ package analisis;
 // importaciones
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import java.util.HashMap;
 import abstracto.Instruccion;
 import Simbolo.Tipo;
 import Simbolo.tipoDato;
@@ -13,6 +14,8 @@ import instrucciones.AsignacionVar;
 import instrucciones.If;
 import instrucciones.While;
 import instrucciones.Break;
+import instrucciones.Metodo;
+import instrucciones.Start;
 //expresiones
 import expresiones.Nativo;
 import expresiones.OperadoresAritmeticos;
@@ -51,6 +54,7 @@ terminal _llaveizq, _llaveder;
 terminal _while, _menorq;
 terminal _for;
 terminal String _break;
+terminal VOID, COMA, START;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
@@ -62,6 +66,9 @@ nonterminal LinkedList<Instruccion> ELSEIF;
 nonterminal Instruccion WHILE;
 nonterminal Instruccion BREAK;
 nonterminal Instruccion FOR, ACTUALIZAR_FOR;
+nonterminal Instruccion METODO;
+nonterminal LinkedList<HashMap> PARAMS;
+nonterminal Instruccion STARTT;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
 //precedence left AND;
@@ -93,6 +100,8 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | WHILE:a           {:RESULT = a; :}
                 | BREAK:a          {:RESULT = a; :}
                 | FOR:a             {: RESULT = a; :}
+                | METODO:a         {: RESULT = a; :}
+                | STARTT:a         {: RESULT = a; :}
                 | error FINCADENA
                 | error 
 ;
@@ -124,10 +133,34 @@ DECLARACION ::= VAR  ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESUL
 
 ASIGNACION ::= ID:a IGUAL EXPRESION: b FINCADENA {: RESULT = new AsignacionVar(a, b, aleft, aright); :}
 ;
+METODO ::= TIPOS:a ID:b PAR1 PAR2 _llaveizq INSTRUCCIONES:c _llaveder {: RESULT=new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright);:}
+            | TIPOS:a ID:b PAR1 PARAMS:p PAR2 _llaveizq INSTRUCCIONES:c _llaveder    {: RESULT=new Metodo(b, p,c, a, aleft, aright);:}
+;
+
+PARAMS ::= PARAMS:a COMA TIPOS:b ID:c {:
+                                   RESULT  = a;
+                                   var hm2 = new HashMap<String, Object>();
+                                   hm2.put("id",c);
+                                   hm2.put("tipo",b);
+                                   RESULT.add(hm2); 
+                                :}
+        |  TIPOS:a ID:b               {: 
+                                    
+                                    RESULT = new LinkedList<HashMap>();
+                                    var hm = new HashMap<String, Object>();
+                                    hm.put("id", b);
+                                    hm.put("tipo", a);  
+                                    RESULT.add(hm);
+
+                                  :}
+;
+STARTT ::= START ID:a PAR1 PAR2 FINCADENA {: RESULT = new Start(a, aleft, aright); :}
+;
 
 TIPOS ::=   INT         {: RESULT = new Tipo(tipoDato.ENTERO);  :}
           | DOUBLE      {: RESULT = new Tipo(tipoDato.DECIMAL);  :}
           | STRING      {: RESULT = new Tipo(tipoDato.CADENA);  :}
+          | VOID         {: RESULT = new Tipo(tipoDato.VOID);  :}
 ;
 
 EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(OperadoresAritmeticos.NEGACION, a, aleft, aright); :} %prec UMENOS

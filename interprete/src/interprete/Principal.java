@@ -9,7 +9,11 @@ import Simbolo.tablaSimbolos;
 import abstracto.Instruccion;
 import analisis.parser;
 import analisis.scanner;
+import instrucciones.Start;
 import excepciones.Errores;
+import instrucciones.AsignacionVar;
+import instrucciones.Declaracion;
+import instrucciones.Metodo;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.HashSet;
@@ -104,10 +108,54 @@ public class Principal extends javax.swing.JFrame {
             lista.addAll(s.listaErrores);
             lista.addAll(p.listaErrores);
             for (var a: ast.getInstrucciones()){
-                a.interpretar(ast, tabla);
+                if (a == null){
+                    continue;
+                }
+                if (a instanceof Metodo){
+                   ast.addFunciones(a);
+                }
+               
             }
-            jTextArea2.setText(ast.getConsolas());
             
+            /* var int: a = 10;
+                           void mimetodo(){
+                                print(a);
+                            }
+                           void mimetodo2(){
+                                print(a);
+                            }     
+           
+                        */
+            for(var a : ast.getInstrucciones()){
+                if (a == null){
+                    continue;
+                }
+                if (a instanceof Declaracion || a instanceof AsignacionVar){
+                    var res = a.interpretar(ast, tabla);
+                    if (res instanceof Errores errores){
+                        lista.add(errores);
+                    }
+                }
+            }
+            Start st = null;
+            for(var a : ast.getInstrucciones()){
+                if (a == null){
+                    continue;
+                }
+                if(a instanceof Start start){
+                   st = start;
+                   break;
+                }
+                
+            }
+            var resultadoStart = st.interpretar(ast, tabla);
+            
+            // ALMACENAMIENTO DE FUNCIONES Y VARIABLES GLOBALES
+            //a.interpretar(ast, tabla);
+            jTextArea2.setText(ast.getConsolas());
+            for(Errores e:lista){
+                System.out.println(e.getDesc());
+            }
         }catch(Exception ex){
             jTextArea2.setText("ERROR");
         }
