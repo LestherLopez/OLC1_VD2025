@@ -24,7 +24,11 @@ public class Declaracion extends Instruccion {
         this.identificador = identificador;
         this.valor = valor;
     }
-    
+    public Declaracion(String identificador, Tipo tipo, int linea, int col) {
+        super(tipo, linea, col);
+        this.identificador = identificador;
+        this.valor = null;
+    }
     public Object interpretar(Arbol arbol, tablaSimbolos tabla){
         
         

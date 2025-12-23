@@ -16,6 +16,7 @@ import instrucciones.While;
 import instrucciones.Break;
 import instrucciones.Metodo;
 import instrucciones.Start;
+import instrucciones.Llamada;
 //expresiones
 import expresiones.Nativo;
 import expresiones.OperadoresAritmeticos;
@@ -69,6 +70,8 @@ nonterminal Instruccion FOR, ACTUALIZAR_FOR;
 nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion STARTT;
+nonterminal Instruccion LLAMADA;
+nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
 //precedence left AND;
@@ -102,6 +105,7 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | FOR:a             {: RESULT = a; :}
                 | METODO:a         {: RESULT = a; :}
                 | STARTT:a         {: RESULT = a; :}
+                | LLAMADA:a      {: RESULT = a; :}
                 | error FINCADENA
                 | error 
 ;
@@ -154,9 +158,23 @@ PARAMS ::= PARAMS:a COMA TIPOS:b ID:c {:
 
                                   :}
 ;
-STARTT ::= START ID:a PAR1 PAR2 FINCADENA {: RESULT = new Start(a, aleft, aright); :}
+
+STARTT ::= START ID:a PAR1 PAR2 FINCADENA {: RESULT = new Start(a, new LinkedList<Instruccion>(),aleft, aright); :}
+        | START ID:a PAR1 PARAMSLLAMADA:b PAR2 FINCADENA {: RESULT = new Start(a, b, aleft, aright); :}
+;
+LLAMADA ::= ID:a PAR1 PARAMSLLAMADA:b PAR2 FINCADENA {: RESULT = new Llamada(a, b, aleft, aright);:}
+            | ID:a PAR1 PAR2 FINCADENA      {: RESULT = new Llamada(a, new LinkedList<Instruccion>(),aleft, aright); :}
+            
 ;
 
+PARAMSLLAMADA ::= PARAMSLLAMADA:a COMA EXPRESION:b {:  RESULT = a;  
+                                                        RESULT.add(b);
+                                                    :}
+                | EXPRESION:a                       {:
+                                                        RESULT = new LinkedList<Instruccion>();
+                                                        RESULT.add(a);
+                                                    :}
+;
 TIPOS ::=   INT         {: RESULT = new Tipo(tipoDato.ENTERO);  :}
           | DOUBLE      {: RESULT = new Tipo(tipoDato.DECIMAL);  :}
           | STRING      {: RESULT = new Tipo(tipoDato.CADENA);  :}
