@@ -8,40 +8,45 @@ package analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int _llaveizq = 25;
-  public static final int MENOS = 16;
-  public static final int _llaveder = 26;
-  public static final int _if = 23;
-  public static final int DOSPUNTOS = 18;
-  public static final int CADENA = 2;
-  public static final int IGUAL = 19;
-  public static final int INT = 6;
-  public static final int _while = 27;
-  public static final int CHAR = 10;
-  public static final int FINCADENA = 11;
-  public static final int DECIMAL = 4;
-  public static final int _menorq = 28;
-  public static final int TRUE = 21;
-  public static final int UMENOS = 17;
-  public static final int _else = 24;
-  public static final int ID = 5;
-  public static final int COMA = 32;
-  public static final int EQUALS = 20;
-  public static final int STRING = 8;
-  public static final int EOF = 0;
-  public static final int _break = 30;
-  public static final int FALSE = 22;
-  public static final int PRINT = 12;
-  public static final int error = 1;
   public static final int PAR2 = 14;
+  public static final int DOSPUNTOS = 18;
   public static final int PAR1 = 13;
-  public static final int START = 33;
+  public static final int _new = 37;
+  public static final int _corcerrar = 28;
+  public static final int CHAR = 10;
+  public static final int EQUALS = 20;
   public static final int ENTERO = 3;
-  public static final int VOID = 31;
-  public static final int _for = 29;
-  public static final int VAR = 9;
-  public static final int MAS = 15;
   public static final int DOUBLE = 7;
+  public static final int INT = 6;
+  public static final int _llaveizq = 25;
+  public static final int FINCADENA = 11;
+  public static final int IGUAL = 19;
+  public static final int _corabrir = 27;
+  public static final int _mayorq = 31;
+  public static final int _else = 24;
+  public static final int _list = 38;
+  public static final int UMENOS = 17;
+  public static final int ID = 5;
+  public static final int EOF = 0;
+  public static final int DECIMAL = 4;
+  public static final int TRUE = 21;
+  public static final int error = 1;
+  public static final int _break = 33;
+  public static final int COMA = 35;
+  public static final int CADENA = 2;
+  public static final int MENOS = 16;
+  public static final int START = 36;
+  public static final int VOID = 34;
+  public static final int _if = 23;
+  public static final int _llaveder = 26;
+  public static final int _while = 29;
+  public static final int _menorq = 30;
+  public static final int _for = 32;
+  public static final int STRING = 8;
+  public static final int FALSE = 22;
+  public static final int VAR = 9;
+  public static final int PRINT = 12;
+  public static final int MAS = 15;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -70,13 +75,18 @@ public class sym {
   "_else",
   "_llaveizq",
   "_llaveder",
+  "_corabrir",
+  "_corcerrar",
   "_while",
   "_menorq",
+  "_mayorq",
   "_for",
   "_break",
   "VOID",
   "COMA",
-  "START"
+  "START",
+  "_new",
+  "_list"
   };
 }
 

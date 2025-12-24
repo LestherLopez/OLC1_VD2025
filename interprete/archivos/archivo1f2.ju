@@ -1,0 +1,102 @@
+// ---------------- VARIABLES GLOBALES ----------------
+var nota: double = 0.0;
+
+START main();
+
+// ---------------- METODO PRINCIPAL ----------------
+void main(){
+    print("----------------- CALIFICACION ARCHIVO 1 -----------------\n");
+
+    // --------- MANEJO DE AMBITOS ---------
+    var var1: int = 20;
+
+    if (var1 != 20) {
+        print("Manejo de ambitos erroneo :(");
+    } else {
+        print("Manejo de ambitos correcto :D");
+        nota = nota + 0.5;
+    }
+
+    // --------- DECLARACION DE VARIABLES ---------
+    declaracion();
+
+    // --------- MANEJO DE AMBITOS 2 ---------
+    var miVariable: string = ":D";
+    ambitos();
+
+    // --------- FUNCION CON PARAMETROS Y RETURN ---------
+    var resultado: int;
+    resultado = mayor(10, 25);
+
+    if (resultado == 25) {
+        print("Funcion mayor funciona correctamente");
+        nota = nota + 0.5;
+    } else {
+        print("Error en funcion mayor");
+    }
+
+    // --------- ESCALADO A 25 PUNTOS ---------
+    var notaFinal: double;
+    notaFinal = nota * 10;
+
+    print("\nNota final archivo 1: " + notaFinal + " / 25");
+}
+
+// ---------------- DECLARACION ----------------
+void declaracion(){
+    print("========= Metodo Declaracion =========");
+
+    var num1: int;
+    var num2: int;
+    var num3: int;
+
+    var cadena1: string = "Si sale compi en vacas";
+    var cadena2: string = "No sale compi2 en vacas";
+    var cadena3: string = "No sale compi2 en vacas";
+    var cadena4: string = "Si sale compi1 en vacas";
+
+    if (cadena1 == cadena4 ^ cadena2 == cadena3) {
+        print("Declaracion Correcta");
+        nota = nota + 1.0;
+    } else {
+        print("Declaracion de variables erronea :(");
+    }
+}
+
+// ---------------- AMBITOS ----------------
+void ambitos(){
+    print("========= Metodo Ambitos =========");
+
+    var miVariable: string = "Verificando ambitos";
+
+    if (miVariable == "Verificando ambitos") {
+        print("Entornos correctos :D");
+        nota = nota + 0.5;
+    } else {
+        print("Los entornos estan mal :(");
+    }
+}
+
+// ---------------- FUNCION CON RETURN ----------------
+int mayor(int a, int b){
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
+
+
+/*
+----------------- CALIFICACION ARCHIVO 1 -----------------
+
+Manejo de ambitos correcto :D
+========= Metodo Declaracion =========
+Declaracion Correcta
+========= Metodo Ambitos =========
+Entornos correctos :D
+Funcion mayor funciona correctamente
+
+Nota final archivo 1: 25 / 25
+
+
+*/

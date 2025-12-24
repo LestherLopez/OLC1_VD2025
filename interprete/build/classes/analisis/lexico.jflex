@@ -35,7 +35,10 @@ IGUAL = "="
 EQUALS = "=="
 _llaveizq = "{"
 _llaveder = "}"
+_corabrir  = "["
+_corcerrar = "]"
 _menorq = "<"
+_mayorq = ">"
 DOSPUNTOS = ":"
 TRUE="true"
 FALSE="false"
@@ -61,6 +64,8 @@ VAR = "var"
 INT = "int"
 DOUBLE = "double"
 STRING = "string"
+_new  = "new"
+_list = "list"
 %%
 <YYINITIAL> {BLANCOS} { }
 <YYINITIAL> {PRINT} {return new Symbol(sym.PRINT, yyline, yycolumn, yytext());}
@@ -71,6 +76,8 @@ STRING = "string"
 <YYINITIAL> {_while} {return new Symbol(sym._while, yyline, yycolumn,yytext());}
 <YYINITIAL> {_for} {return new Symbol(sym._for, yyline, yycolumn,yytext());}
 <YYINITIAL> {_break} {return new Symbol(sym._break, yyline, yycolumn,yytext());}
+<YYINITIAL> {_list} {return new Symbol(sym._list, yyline, yycolumn,yytext());}
+<YYINITIAL> {_new} {return new Symbol(sym._new, yyline, yycolumn,yytext());}
 <YYINITIAL> {VOID} {return new Symbol(sym.VOID, yyline, yycolumn,yytext());}
 <YYINITIAL> {START} {return new Symbol(sym.START, yyline, yycolumn,yytext());}
 <YYINITIAL> {VAR} {return new Symbol(sym.VAR, yyline, yycolumn,yytext());}
@@ -97,7 +104,10 @@ STRING = "string"
 <YYINITIAL> {PAR2} {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}
 <YYINITIAL> {_llaveizq} {return new Symbol(sym._llaveizq, yyline, yycolumn, yytext());}
 <YYINITIAL> {_llaveder} {return new Symbol(sym._llaveder, yyline, yycolumn, yytext());}
+<YYINITIAL> {_corabrir} {return new Symbol(sym._corabrir, yyline, yycolumn, yytext());}
+<YYINITIAL> {_corcerrar} {return new Symbol(sym._corcerrar, yyline, yycolumn, yytext());}
 <YYINITIAL> {_menorq} {return new Symbol(sym._menorq, yyline, yycolumn, yytext());}
+<YYINITIAL> {_mayorq} {return new Symbol(sym._mayorq, yyline, yycolumn, yytext());}
 <YYINITIAL> {MAS} {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}
 <YYINITIAL> {MENOS} {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}
 <YYINITIAL> {COMA} {return new Symbol(sym.COMA, yyline, yycolumn, yytext());}

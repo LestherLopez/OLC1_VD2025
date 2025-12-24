@@ -17,6 +17,7 @@ import instrucciones.Break;
 import instrucciones.Metodo;
 import instrucciones.Start;
 import instrucciones.Llamada;
+import instrucciones.DeclaracionList;
 //expresiones
 import expresiones.Nativo;
 import expresiones.OperadoresAritmeticos;
@@ -24,6 +25,7 @@ import expresiones.Aritmeticas;
 import expresiones.OperadoresRelacionales;
 import expresiones.Relacionales;
 import expresiones.AccesoVar;
+import expresiones.AccessList;
 parser code
 {:
         public LinkedList<Errores> listaErrores = new LinkedList<>();
@@ -51,11 +53,11 @@ terminal Character CHAR;
 terminal FINCADENA, PRINT, PAR1, PAR2, MAS, MENOS, UMENOS, DOSPUNTOS;
 terminal IGUAL, EQUALS;
 terminal TRUE, FALSE, _if, _else;
-terminal _llaveizq, _llaveder;
-terminal _while, _menorq;
+terminal _llaveizq, _llaveder, _corabrir, _corcerrar;
+terminal _while, _menorq, _mayorq;
 terminal _for;
 terminal String _break;
-terminal VOID, COMA, START;
+terminal VOID, COMA, START, _new, _list;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
@@ -71,6 +73,7 @@ nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion STARTT;
 nonterminal Instruccion LLAMADA;
+nonterminal Instruccion DECLARACIONLISTA;
 nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
 //orden de precedencia final cuando se tenga declarado todos los simbolos en el lexico
 //precedence left OR;
@@ -83,7 +86,7 @@ nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
 //precedence nonassoc POTENCIA;
 //precedence right UMENOS;
 
-precedence left EQUALS, _menorq;
+precedence left EQUALS, _menorq, _mayorq;
 precedence left MAS;
 precedence left MENOS;
 precedence right UMENOS;
@@ -106,6 +109,7 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | METODO:a         {: RESULT = a; :}
                 | STARTT:a         {: RESULT = a; :}
                 | LLAMADA:a      {: RESULT = a; :}
+                | DECLARACIONLISTA:a {: RESULT = a; :}
                 | error FINCADENA
                 | error 
 ;
@@ -134,12 +138,20 @@ DECLARACION ::= VAR  ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESUL
                  | VAR ID:b DOSPUNTOS TIPOS:a FINCADENA
                 {: RESULT = new Declaracion(b, null, a, bleft, bright); :}
 ;   
+DECLARACIONLISTA ::= _list _menorq TIPOS:a _mayorq ID:b IGUAL _new _list PAR1 PAR2 FINCADENA
+{: RESULT = new DeclaracionList(b, a, aleft, aright); :}
+;
 
 ASIGNACION ::= ID:a IGUAL EXPRESION: b FINCADENA {: RESULT = new AsignacionVar(a, b, aleft, aright); :}
 ;
 METODO ::= TIPOS:a ID:b PAR1 PAR2 _llaveizq INSTRUCCIONES:c _llaveder {: RESULT=new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright);:}
             | TIPOS:a ID:b PAR1 PARAMS:p PAR2 _llaveizq INSTRUCCIONES:c _llaveder    {: RESULT=new Metodo(b, p,c, a, aleft, aright);:}
+
+[ [1, 2], [3, 4], [5,5], [6,6] ]; 
+LISTAVALORES ::= VALORES:a COMA EXPRESION:b
+            | EXPRESION:a
 ;
+
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c {:
                                    RESULT  = a;
@@ -191,7 +203,8 @@ EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(Operadore
               | CHAR:a {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER), aleft, aright); :}
               | CADENA:a    {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright);:}
               | ID:a            {: RESULT = new AccesoVar(a, aleft, aright);  :}
+              | ID:a _corabrir EXPRESION:b _corcerrar {: RESULT = new AccessList(a,b, aleft, aright);  :}
               | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
               | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
-             
+              
 ;

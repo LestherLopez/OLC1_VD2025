@@ -56,7 +56,10 @@ public class tablaSimbolos {
         }
         return false;
     }
+      
+    
     /*
+    
         var a: int = 0;
         while(a<5){
             var b: int = 0;

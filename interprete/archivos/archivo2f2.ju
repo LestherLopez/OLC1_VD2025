@@ -1,0 +1,132 @@
+// ================= VARIABLES GLOBALES =================
+var vector: int[] = [100, 23, 54, 87, 64, 34, 78, 36, 14, 1];
+
+START main();
+
+// ================= FUNCIONES =================
+
+int fibonacci(int n){
+    if (n <= 1) {
+        return n;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+void recursiva2(int valor){
+    print("========= Recursiva Fibonacci =========");
+    print("Fibonacci de " + valor + " = " + fibonacci(valor));
+}
+
+void ordenarVector(){
+    var i: int;
+    var j: int;
+    var temp: int;
+
+    for (i = 0; i < length(vector); i++) {
+        for (j = i + 1; j < length(vector); j++) {
+            if (vector[i] > vector[j]) {
+                temp = vector[i];
+                vector[i] = vector[j];
+                vector[j] = temp;
+            }
+        }
+    }
+}
+
+void imprimirVector(){
+    var i: int;
+    var cadena: string = "[";
+    for (i = 0; i < length(vector); i++) {
+        cadena = cadena + " " + vector[i];
+    }
+    cadena = cadena + " ]";
+    print(cadena);
+}
+
+// ================= FUNCION DIFICIL =================
+
+// Verifica recursivamente si el vector está ordenado
+int estaOrdenado(int indice){
+    if (indice >= length(vector) - 1) {
+        return 1;
+    }
+    if (vector[indice] > vector[indice + 1]) {
+        return 0;
+    }
+    return estaOrdenado(indice + 1);
+}
+
+// ================= MATRIZ =================
+
+var matriz2: char[][] = [
+    ['A','B','C'],
+    ['D','E','F'],
+    ['G','H','I']
+];
+
+void imprimirMatriz(){
+    var i: int;
+    var j: int;
+    for (i = 0; i < length(matriz2); i++) {
+        var linea: string = "";
+        for (j = 0; j < length(matriz2[i]); j++) {
+            linea = linea + " " + matriz2[i][j];
+        }
+        print(linea);
+    }
+}
+
+// ================= MAIN =================
+
+void main(){
+    print("------------- CALIFICACION ARCHIVO 2 -------------\n");
+
+    recursiva2(10);
+    print("");
+
+    print("========= Vector desordenado =========");
+    imprimirVector();
+
+    if (estaOrdenado(0) == 1) {
+        print("El vector ya esta ordenado");
+    } else {
+        print("El vector NO esta ordenado");
+    }
+
+    ordenarVector();
+    print("\n========= Vector ordenado =========");
+    imprimirVector();
+
+    if (estaOrdenado(0) == 1) {
+        print("El vector esta correctamente ordenado");
+    } else {
+        print("Error al ordenar el vector");
+    }
+
+    print("");
+    print("========= Matriz =========");
+    imprimirMatriz();
+}
+
+
+/*
+------------- CALIFICACION ARCHIVO 2 -------------
+
+========= Recursiva Fibonacci =========
+Fibonacci de 10 = 55
+
+========= Vector desordenado =========
+[ 100 23 54 87 64 34 78 36 14 1 ]
+El vector NO esta ordenado
+
+========= Vector ordenado =========
+[ 1 14 23 34 36 54 64 78 87 100 ]
+El vector esta correctamente ordenado
+
+========= Matriz =========
+ A B C
+ D E F
+ G H I
+
+
+*/
