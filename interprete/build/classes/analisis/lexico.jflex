@@ -54,6 +54,7 @@ ID = [a-zA-Z_][a-zA-Z0-9_]*
 // palabras reservadas
 _for = "for"
 _break ="break"
+_return = "return"
 VOID = "void"
 START = "start"
 _while = "while"
@@ -76,6 +77,7 @@ _list = "list"
 <YYINITIAL> {_while} {return new Symbol(sym._while, yyline, yycolumn,yytext());}
 <YYINITIAL> {_for} {return new Symbol(sym._for, yyline, yycolumn,yytext());}
 <YYINITIAL> {_break} {return new Symbol(sym._break, yyline, yycolumn,yytext());}
+<YYINITIAL> {_return} {return new Symbol(sym._return, yyline, yycolumn,yytext());}
 <YYINITIAL> {_list} {return new Symbol(sym._list, yyline, yycolumn,yytext());}
 <YYINITIAL> {_new} {return new Symbol(sym._new, yyline, yycolumn,yytext());}
 <YYINITIAL> {VOID} {return new Symbol(sym.VOID, yyline, yycolumn,yytext());}

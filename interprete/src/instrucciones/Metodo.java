@@ -33,6 +33,9 @@ public class Metodo extends Instruccion {
             if (resultado instanceof Errores){
                 return resultado;
             }
+            if(resultado instanceof Return){
+                return resultado;
+            }
             
         }
         return null;

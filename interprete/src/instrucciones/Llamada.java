@@ -89,8 +89,13 @@ public class Llamada extends Instruccion {
                variable.setValor(valorInterpretad);
            }
            var resultadoFuncion = metodo.interpretar(arbol, newTabla);
+           
            if (resultadoFuncion instanceof Errores){
                 return resultadoFuncion;
+           }
+           if (resultadoFuncion instanceof Return ret){
+               return ret.valor;
+               
            }
         }
         return null;

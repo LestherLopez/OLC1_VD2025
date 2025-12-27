@@ -11,10 +11,11 @@ public class sym {
   public static final int PAR2 = 14;
   public static final int DOSPUNTOS = 18;
   public static final int PAR1 = 13;
-  public static final int _new = 37;
+  public static final int _new = 38;
   public static final int _corcerrar = 28;
   public static final int CHAR = 10;
   public static final int EQUALS = 20;
+  public static final int _return = 34;
   public static final int ENTERO = 3;
   public static final int DOUBLE = 7;
   public static final int INT = 6;
@@ -24,7 +25,7 @@ public class sym {
   public static final int _corabrir = 27;
   public static final int _mayorq = 31;
   public static final int _else = 24;
-  public static final int _list = 38;
+  public static final int _list = 39;
   public static final int UMENOS = 17;
   public static final int ID = 5;
   public static final int EOF = 0;
@@ -32,11 +33,11 @@ public class sym {
   public static final int TRUE = 21;
   public static final int error = 1;
   public static final int _break = 33;
-  public static final int COMA = 35;
+  public static final int COMA = 36;
   public static final int CADENA = 2;
   public static final int MENOS = 16;
-  public static final int START = 36;
-  public static final int VOID = 34;
+  public static final int START = 37;
+  public static final int VOID = 35;
   public static final int _if = 23;
   public static final int _llaveder = 26;
   public static final int _while = 29;
@@ -82,6 +83,7 @@ public class sym {
   "_mayorq",
   "_for",
   "_break",
+  "_return",
   "VOID",
   "COMA",
   "START",

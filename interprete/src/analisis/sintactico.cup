@@ -17,6 +17,7 @@ import instrucciones.Break;
 import instrucciones.Metodo;
 import instrucciones.Start;
 import instrucciones.Llamada;
+import instrucciones.Return;
 import instrucciones.DeclaracionList;
 //expresiones
 import expresiones.Nativo;
@@ -56,7 +57,7 @@ terminal TRUE, FALSE, _if, _else;
 terminal _llaveizq, _llaveder, _corabrir, _corcerrar;
 terminal _while, _menorq, _mayorq;
 terminal _for;
-terminal String _break;
+terminal String _break, _return;
 terminal VOID, COMA, START, _new, _list;
 // no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -68,6 +69,7 @@ nonterminal Instruccion SIF;
 nonterminal LinkedList<Instruccion> ELSEIF;
 nonterminal Instruccion WHILE;
 nonterminal Instruccion BREAK;
+nonterminal Instruccion RETURN;
 nonterminal Instruccion FOR, ACTUALIZAR_FOR;
 nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
@@ -110,6 +112,7 @@ INSTRUCCION ::= PRINT PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT =  new Print(a, 
                 | STARTT:a         {: RESULT = a; :}
                 | LLAMADA:a      {: RESULT = a; :}
                 | DECLARACIONLISTA:a {: RESULT = a; :}
+                | RETURN:a {: RESULT = a;:}
                 | error FINCADENA
                 | error 
 ;
@@ -133,6 +136,8 @@ ACTUALIZAR_FOR ::= ID:a IGUAL EXPRESION:b {: RESULT = new AsignacionVar(a, b, al
 BREAK ::= _break:a FINCADENA {: RESULT =  new Break(aleft, aright); :}
 ; 
 
+RETURN ::= _return EXPRESION:a FINCADENA {: RESULT = new Return(a, aleft, aright); :}
+;
 
 DECLARACION ::= VAR  ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESULT = new Declaracion(b, c, a, aleft, aright); :}
                  | VAR ID:b DOSPUNTOS TIPOS:a FINCADENA
@@ -146,11 +151,9 @@ ASIGNACION ::= ID:a IGUAL EXPRESION: b FINCADENA {: RESULT = new AsignacionVar(a
 ;
 METODO ::= TIPOS:a ID:b PAR1 PAR2 _llaveizq INSTRUCCIONES:c _llaveder {: RESULT=new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright);:}
             | TIPOS:a ID:b PAR1 PARAMS:p PAR2 _llaveizq INSTRUCCIONES:c _llaveder    {: RESULT=new Metodo(b, p,c, a, aleft, aright);:}
-
-[ [1, 2], [3, 4], [5,5], [6,6] ]; 
-LISTAVALORES ::= VALORES:a COMA EXPRESION:b
-            | EXPRESION:a
 ;
+
+
 
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c {:
@@ -192,7 +195,6 @@ TIPOS ::=   INT         {: RESULT = new Tipo(tipoDato.ENTERO);  :}
           | STRING      {: RESULT = new Tipo(tipoDato.CADENA);  :}
           | VOID         {: RESULT = new Tipo(tipoDato.VOID);  :}
 ;
-
 EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(OperadoresAritmeticos.NEGACION, a, aleft, aright); :} %prec UMENOS
               | EXPRESION:a MAS EXPRESION:b  {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
               | EXPRESION:a EQUALS EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.EQUALS, aleft, aright);    :}
@@ -203,8 +205,9 @@ EXPRESION ::=  MENOS EXPRESION:a           {: RESULT = new Aritmeticas(Operadore
               | CHAR:a {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER), aleft, aright); :}
               | CADENA:a    {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright);:}
               | ID:a            {: RESULT = new AccesoVar(a, aleft, aright);  :}
+              | LLAMADA:a {:RESULT = a;:}
               | ID:a _corabrir EXPRESION:b _corcerrar {: RESULT = new AccessList(a,b, aleft, aright);  :}
               | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
               | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
-              
+             
 ;
